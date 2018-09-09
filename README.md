@@ -29,7 +29,7 @@ Grab the [latest release](https://github.com/maximepeschard/Blues/releases/lates
 git clone https://github.com/maximepeschard/Blues
 cd Blues
 swift build -c release
-# + move `.build/release/ice` to somewhere on your $PATH
+# + move `.build/release/blues` to somewhere on your $PATH
 ```
 
 ## :question: Usage
@@ -117,3 +117,4 @@ Editing this file manually is OK, although you probably shouldn't write JSON if 
 ## :book: License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
