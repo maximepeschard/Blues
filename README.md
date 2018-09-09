@@ -21,7 +21,7 @@ $ blues list
 
 ### From releases (recommended)
 
-Grab the [latest release](/releases/latest) from GitHub, and put it somewhere on your `$PATH`.
+Grab the [latest release](https://github.com/maximepeschard/Blues/releases/latest) from GitHub, and put it somewhere on your `$PATH`.
 
 ### From source
 
