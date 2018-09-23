@@ -10,9 +10,9 @@ class ConnectCommand: Command {
         do {
             var didConnect: Bool
             if let address = BluesConfig.shared.address(fromAlias: deviceIdentifier.value) {
-                didConnect = try Bluetooth.connectDevice(identifier: address)
+                didConnect = try BluetoothUtils.connectDevice(identifier: address)
             } else {
-                didConnect = try Bluetooth.connectDevice(identifier: deviceIdentifier.value)
+                didConnect = try BluetoothUtils.connectDevice(identifier: deviceIdentifier.value)
             }
             if didConnect {
                 printMessage("Connected device '\(deviceIdentifier.value)'", withLevel: Level.SUCCESS)
@@ -33,9 +33,9 @@ class DisconnectCommand: Command {
         do {
             var didDisconnect: Bool
             if let address = BluesConfig.shared.address(fromAlias: deviceIdentifier.value) {
-                didDisconnect = try Bluetooth.disconnectDevice(identifier: address)
+                didDisconnect = try BluetoothUtils.disconnectDevice(identifier: address)
             } else {
-                didDisconnect = try Bluetooth.disconnectDevice(identifier: deviceIdentifier.value)
+                didDisconnect = try BluetoothUtils.disconnectDevice(identifier: deviceIdentifier.value)
             }
             if didDisconnect {
                 printMessage("Disconnected device '\(deviceIdentifier.value)'", withLevel: Level.SUCCESS)
