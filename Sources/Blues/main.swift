@@ -2,7 +2,7 @@ import SwiftCLI
 
 let bluesCli = CLI(
     name: "blues",
-    version: "0.1.0",
+    version: "0.2.0",
     description: "Blues - Manage Bluetooth connections with paired devices"
 )
 bluesCli.commands = [
