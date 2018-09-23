@@ -7,23 +7,34 @@ class ListCommand: Command {
     let jsonOutput = Flag("-j", "--json", description: "Output JSON data")
 
     func execute() throws {
-        let devices = Bluetooth.pairedDevices()
+        let devices = BluetoothUtils.pairedDevices()
         if jsonOutput.value {
-            let devicesDict = devices
-                .filter({ !BluesConfig.shared.hidden.contains($0.address) })
-                .map {
-                    ["name": $0.name, "address": $0.address, "connected": $0.status == DeviceStatus.connected]
+            var devicesJson: [[String: Any]] = []
+            for device in devices.filter({ !BluesConfig.shared.hidden.contains($0.address) }) {
+                var deviceJson: [String: Any] = [
+                    "name": device.name,
+                    "address": device.address,
+                    "connected": device.status == DeviceStatus.connected,
+                ]
+                if let batteryUnits = device.battery {
+                    if batteryUnits.count == 1 {
+                        deviceJson["battery"] = batteryUnits[0].level
+                    } else {
+                        deviceJson["battery"] = Dictionary(
+                            uniqueKeysWithValues: batteryUnits.map { ($0.name, $0.level) }
+                        )
+                    }
                 }
-            let jsonData = try? JSONSerialization.data(withJSONObject: devicesDict, options: [])
+                devicesJson.append(deviceJson)
+            }
+            let jsonData = try? JSONSerialization.data(withJSONObject: devicesJson, options: [])
             let jsonString = String(data: jsonData!, encoding: .utf8)!
             stdout <<< jsonString
         } else {
             for device in devices.filter({ !BluesConfig.shared.hidden.contains($0.address) }) {
-                printDevice(
-                    name: device.name,
-                    address: device.address,
-                    connected: device.status == DeviceStatus.connected,
-                    alias: BluesConfig.shared.alias(fromAddress: device.address)
+                printInfo(
+                    forDevice: device,
+                    withAlias: BluesConfig.shared.alias(fromAddress: device.address)
                 )
             }
         }
