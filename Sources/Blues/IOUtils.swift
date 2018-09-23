@@ -26,14 +26,21 @@ func printMessage(_ message: String, withLevel level: Level, andQuit quit: Bool?
     }
 }
 
-func printDevice(name: String, address: String, connected: Bool, alias: String?) {
-    let statusIcon = connected ? "*".bold : "•"
-    let addressPart = "(\(address))"
-    let namePart = connected ? name.bold.green : name.bold
-    if let aliasUnwrapped = alias {
-        let aliasPart = "[@ -> " + "\(aliasUnwrapped)".magenta + "]"
-        print(statusIcon, namePart, addressPart, aliasPart)
-    } else {
-        print(statusIcon, namePart, addressPart)
+func printInfo(forDevice device: Device, withAlias alias: String?) {
+    let statusIcon = device.status == DeviceStatus.connected ? "*".bold : "•"
+    let addressPart = "(\(device.address))"
+    let namePart = device.status == DeviceStatus.connected ? device.name.bold.green : device.name.bold
+    var output = "\(statusIcon) \(namePart) \(addressPart)"
+
+    if let batteryUnits = device.battery {
+        if batteryUnits.count == 1 {
+            output += " (battery: \(batteryUnits[0].level)%)"
+        } else {
+            output += " (" + (batteryUnits.map { "\($0.name): \($0.level)%" }).joined(separator: ", ") + ")"
+        }
     }
+    if let aliasUnwrapped = alias {
+        output += " [@ -> " + "\(aliasUnwrapped)".magenta + "]"
+    }
+    print(output)
 }

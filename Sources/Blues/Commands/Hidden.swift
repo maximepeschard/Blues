@@ -35,13 +35,8 @@ class HiddenListCommand: Command {
     let shortDescription = "List hidden devices"
 
     func execute() throws {
-        for device in Bluetooth.pairedDevices().filter({ BluesConfig.shared.hidden.contains($0.address) }) {
-            printDevice(
-                name: device.name,
-                address: device.address,
-                connected: device.status == DeviceStatus.connected,
-                alias: BluesConfig.shared.alias(fromAddress: device.address)
-            )
+        for device in BluetoothUtils.pairedDevices().filter({ BluesConfig.shared.hidden.contains($0.address) }) {
+            printInfo(forDevice: device, withAlias: BluesConfig.shared.alias(fromAddress: device.address))
         }
     }
 }
