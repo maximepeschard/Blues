@@ -2,7 +2,6 @@ import Foundation
 
 struct Config: Codable {
     var alias: [String: String]
-    var hidden: [String]
 }
 
 class BluesConfig {
@@ -11,11 +10,6 @@ class BluesConfig {
     private let configFile = ".bluesconf"
     private var aliasToAddress: [String: String] = [:]
     private var addressToAlias: [String: String] = [:]
-    private var hiddenAddresses: [String] = []
-
-    var hidden: [String] {
-        return hiddenAddresses
-    }
 
     private init() {
         load()
@@ -44,24 +38,6 @@ class BluesConfig {
         return removed
     }
 
-    func addToHidden(_ address: String) -> Bool {
-        if !hiddenAddresses.contains(address) {
-            hiddenAddresses.append(address)
-            save()
-            return true
-        }
-        return false
-    }
-
-    func removeFromHidden(_ address: String) -> Bool {
-        if let index = hiddenAddresses.index(of: address) {
-            hiddenAddresses.remove(at: index)
-            save()
-            return true
-        }
-        return false
-    }
-
     func load() {
         let fileManager = FileManager.default
         guard #available(macOS 10.12, *) else {
@@ -80,7 +56,6 @@ class BluesConfig {
                 aliasToAddress[als] = addr
                 addressToAlias[addr] = als
             }
-            hiddenAddresses = decoded.hidden
         } catch {
             printMessage("Couldn't load configuration.", withLevel: Level.WARNING)
         }
@@ -94,7 +69,7 @@ class BluesConfig {
         let home = fileManager.homeDirectoryForCurrentUser
         let configUrl = home.appendingPathComponent(configFile)
         do {
-            let obj = Config(alias: aliasToAddress, hidden: hiddenAddresses)
+            let obj = Config(alias: aliasToAddress)
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let jsonData = try encoder.encode(obj)

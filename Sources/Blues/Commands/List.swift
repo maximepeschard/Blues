@@ -10,7 +10,7 @@ class ListCommand: Command {
         let devices = BluetoothUtils.pairedDevices()
         if jsonOutput.value {
             var devicesJson: [[String: Any]] = []
-            for device in devices.filter({ !BluesConfig.shared.hidden.contains($0.address) }) {
+            for device in devices {
                 var deviceJson: [String: Any] = [
                     "name": device.name,
                     "address": device.address,
@@ -31,7 +31,7 @@ class ListCommand: Command {
             let jsonString = String(data: jsonData!, encoding: .utf8)!
             stdout <<< jsonString
         } else {
-            for device in devices.filter({ !BluesConfig.shared.hidden.contains($0.address) }) {
+            for device in devices {
                 printInfo(
                     forDevice: device,
                     withAlias: BluesConfig.shared.alias(fromAddress: device.address)
