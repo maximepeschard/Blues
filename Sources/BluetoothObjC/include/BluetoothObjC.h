@@ -10,3 +10,7 @@
 @property(nonatomic) unsigned char batteryPercentLeft;
 @property(nonatomic) unsigned char batteryPercentSingle;
 @end
+
+// https://github.com/toy/blueutil/blob/master/blueutil.m
+int IOBluetoothPreferenceGetControllerPowerState();
+void IOBluetoothPreferenceSetControllerPowerState(int state);
