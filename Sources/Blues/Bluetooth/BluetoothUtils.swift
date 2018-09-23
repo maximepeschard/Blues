@@ -1,6 +1,28 @@
+import BluetoothObjC
 import IOBluetooth
 
+enum BluetoothState: Int32 {
+    case disabled
+    case enabled
+}
+
 class BluetoothUtils {
+    static var state: BluetoothState {
+        get {
+            let rawState = IOBluetoothPreferenceGetControllerPowerState()
+            if rawState == 1 {
+                return BluetoothState.enabled
+            } else {
+                return BluetoothState.disabled
+            }
+        }
+        set {
+            if newValue != state {
+                IOBluetoothPreferenceSetControllerPowerState(newValue.rawValue)
+            }
+        }
+    }
+
     private static func getPairedIOBluetoothDevices() -> [IOBluetoothDevice] {
         if let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] {
             // the following filter should suffice to remove unwanted devices

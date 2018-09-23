@@ -6,6 +6,7 @@ let bluesCli = CLI(
     description: "Blues - Manage Bluetooth connections with paired devices"
 )
 bluesCli.commands = [
+    ToggleGroup(),
     ListCommand(),
     ConnectCommand(),
     DisconnectCommand(),
