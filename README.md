@@ -8,6 +8,9 @@ $ blues list
 • Maxime's Mouse (YY-YY-YY-YY-YY-YY)
 • Maxime's Beats Solo³ (ZZ-ZZ-ZZ-ZZ-ZZ-ZZ) [@ -> beats]
 
+$ blues toggle on
+Success => Bluetooth is now on
+
 $ blues connect beats
 Success => Connected device 'beats'
 
@@ -42,6 +45,7 @@ Usage: blues <command> [options]
 Blues - Manage Bluetooth connections with paired devices
 
 Groups:
+  toggle          Toggle Bluetooth on/off
   alias           Manage aliases for devices
 
 Commands:
@@ -52,7 +56,11 @@ Commands:
   version         Prints the current version of this app
 ```
 
-### :scroll: List
+### Toggle
+
+Use `blues toggle on` and `blues toggle off` to enable and disable Bluetooh.
+
+### List
 
 Use `blues list` to list all paired devices. Provide the `-j` or `--json` flag to get a JSON output that can be used by other scripts or programs :
 
@@ -79,11 +87,11 @@ $ blues ls -j | jq '.'
 ```
 
 
-### :left_right_arrow: Connect & Disconnect
+### Connect & Disconnect
 
 Use `blues connect deviceIdentifier` and `blues disconnect deviceIdentifier` to connect and disconnect a device, where `deviceIdentifier` is either a MAC address or an alias.
 
-### :point_right: Alias
+### Alias
 
 Set aliases for devices by using `blues alias set myAlias macAddress`. Aliases can be removed with `blues alias unset myAlias`. 
 
