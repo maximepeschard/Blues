@@ -10,7 +10,6 @@ bluesCli.commands = [
     ConnectCommand(),
     DisconnectCommand(),
     AliasGroup(),
-    HiddenGroup(),
 ]
 bluesCli.aliases["ls"] = "list"
 BluesConfig.shared.load()
