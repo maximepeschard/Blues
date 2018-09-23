@@ -3,7 +3,8 @@ import IOBluetooth
 class BluetoothUtils {
     private static func getPairedIOBluetoothDevices() -> [IOBluetoothDevice] {
         if let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] {
-            return devices
+            // the following filter should suffice to remove unwanted devices
+            return devices.filter { $0.deviceClassMajor != kBluetoothDeviceClassMajorMiscellaneous }
         } else {
             return [IOBluetoothDevice]()
         }
