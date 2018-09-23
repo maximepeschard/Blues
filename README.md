@@ -14,7 +14,7 @@ Success => Connected device 'beats'
 $ blues list
 • Maxime's Keyboard (XX-XX-XX-XX-XX-XX)
 • Maxime's Mouse (YY-YY-YY-YY-YY-YY)
-* Maxime's Beats Solo³ (ZZ-ZZ-ZZ-ZZ-ZZ-ZZ) [@ -> beats]
+* Maxime's Beats Solo³ (ZZ-ZZ-ZZ-ZZ-ZZ-ZZ) (battery: 85%) [@ -> beats]
 ```
 
 ## :arrow_down: Installing
@@ -43,7 +43,6 @@ Blues - Manage Bluetooth connections with paired devices
 
 Groups:
   alias           Manage aliases for devices
-  hidden          Manage hidden devices
 
 Commands:
   list            List paired devices
@@ -55,7 +54,7 @@ Commands:
 
 ### :scroll: List
 
-Use `blues list` to list all (not hidden) paired devices. Provide the `-j` or `--json` flag to get a JSON output that can be used by other scripts or programs :
+Use `blues list` to list all paired devices. Provide the `-j` or `--json` flag to get a JSON output that can be used by other scripts or programs :
 
 ```
 $ blues ls -j | jq '.'
@@ -73,7 +72,8 @@ $ blues ls -j | jq '.'
   {
     "name": "Maxime's Beats Solo³",
     "connected": true,
-    "address": "ZZ-ZZ-ZZ-ZZ-ZZ-ZZ"
+    "address": "ZZ-ZZ-ZZ-ZZ-ZZ-ZZ",
+    "battery": 85
   }
 ]
 ```
@@ -87,23 +87,17 @@ Use `blues connect deviceIdentifier` and `blues disconnect deviceIdentifier` to 
 
 Set aliases for devices by using `blues alias set myAlias macAddress`. Aliases can be removed with `blues alias unset myAlias`. 
 
-### :ghost: Hidden
-
-The output of `blues list` can include devices such as the host machine, which you don't want to see. You can "hide" such devices by running `blues hidden add deviceIdentifier`.
 
 ## :wrench: Configuration
 
-*Blues* stores its configuration in the `~/.bluesconf` as soon as you define an alias or hide devices. This file is a JSON file with the following format :
+*Blues* stores its configuration in the `~/.bluesconf` as soon as you define an alias. This file is a JSON file with the following format :
 
 ```json
 {
     "alias": {
         "alias1": "address1",
         ...
-    },
-    "hidden": [
-        "addressX", ...
-    ]
+    }
 }
 ```
 
